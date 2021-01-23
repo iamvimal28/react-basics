@@ -1,7 +1,7 @@
 import React from 'react';
 import './Person.css';
 
-//author: Vimal Mathiyazhagn login: iamvimal28
+//author: Vimal Mathiyazhagn
 const Person = (props) => {
     return (
         <div className="Person">
