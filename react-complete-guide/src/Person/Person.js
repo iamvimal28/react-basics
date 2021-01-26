@@ -1,7 +1,6 @@
 import React from 'react';
 import './Person.css';
 
-// testing
 const Person = (props) => {
     return (
         <div className="Person">
