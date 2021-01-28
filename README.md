@@ -1,7 +1,8 @@
 # Learning React
 
-To learn :
-
+Contents :
+  - Installation
+  - Understanding base features & syntax
   - Working with lists and conditionals
   - Styling react components and elements
   - Debugging react app
@@ -13,8 +14,3 @@ To learn :
   - Advanced Redux
   - Testing
   - Deploying app to webpack
-
-# Progress:
-
-  - Installation
-  - Understanding base features & syntax
