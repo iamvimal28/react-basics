@@ -20,14 +20,18 @@ class App extends Component {
 
   nameChangeHandler = (event, id) =>{
     // console.log('this worked');
+    //finding the index of person with given person id input
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     });
 
+    //copying the particular person with person index using spread operator
     const person = {...this.state.persons[personIndex]};
 
+    //changing the input box event for the person
     person.name = event.target.value;
 
+    //copying the persons from state and changing the particular value for person
     const persons = [...this.state.persons];
     persons[personIndex] = person;
     this.setState(
