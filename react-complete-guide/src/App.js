@@ -4,24 +4,35 @@ import Person from './Person/Person'
 
 class App extends Component {
   state = {
-    persons: [{name: "Max", age: "29"}, {name: "Manu", age: "30"}],
+    persons: [{ id: 'aaaaa' ,name: "Max", age: "29"}, {id: 'bbbbb' ,name: "Manu", age: "30"}],
     showPersons: false
   }
 
-  switchNameHandler = (someName) =>{
-    // console.log('this worked');
-    this.setState(
-      {
-        persons: [{name: someName, age: "29"}, {name: "Manu", age: "32"}]
-      }
-    );
+  deletePersonHandler = (personIndex) => {
+    /*It is not a good practice to change the original state of array managed byb react
+    Instead will make a copy of array by using slice() or ... (spread operator)
+    */
+    // const person = this.state.persons.slice();
+    const person = [...this.state.persons];
+    person.splice(personIndex,1);
+    this.setState({persons: person});
   }
 
-  nameChangeHandler = (event) =>{
+  nameChangeHandler = (event, id) =>{
     // console.log('this worked');
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    const person = {...this.state.persons[personIndex]};
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
     this.setState(
       {
-        persons: [{name: 'Max', age: "29"}, {name: event.target.value, age: "32"}]
+        persons: persons
       }
     );
   }
@@ -41,22 +52,26 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    let persons = null;
+
+    if(this.state.showPersons){
+      persons = (this.state.persons.map((person,index) => {
+        return <Person 
+        click={this.deletePersonHandler.bind(this,index)} 
+        name={person.name} 
+        age={person.age}
+        //Adding unique key property improve performance in long lists (to compare changes in state)
+        key={person.id}
+        changed={(event) => this.nameChangeHandler(event,person.id)}/>
+      }));
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <h3>Is it working now?</h3>
         <button style = {style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-        { this.state.showPersons === true ? 
-        <div>
-          <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age} 
-          click={this.switchNameHandler.bind(this,'Max')} />
-          <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          changed ={this.nameChangeHandler}>My hobbies: Chess</Person>
-        </div> : null}
+        { persons }
         
       </div>
     );
